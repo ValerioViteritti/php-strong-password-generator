@@ -1,8 +1,25 @@
 <?php 
 
+require_once __DIR__ . '/function.php';
+
+$min = 8;
+$max = 32;
 
 
+// var_dump($_SERVER);
 
+if (isset($_GET["length"]) && !empty($_GET["length"])) {
+    if ($_GET["length"] < $min || $_GET["length"] > $max) {
+        $output = "Generare una password di lunghezza compresa fra $min e $max caratteri";
+        # code...
+    }else{
+
+        session_start();
+        $_SESSION["password"] = $psw;
+        $psw = generatePassword($chairList, $_GET['length']);
+    }
+    $output = 'La password generata è: ' . htmlspecialchars($psw);
+}
 
 
 ?>
@@ -18,7 +35,8 @@
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-
+        <!-- link css -->
+         <link rel="stylesheet" href="./general.css">
         <!-- Bootstrap CSS v5.2.1 -->
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -29,30 +47,29 @@
     </head>
 
     <body>
-        <header>
-            <!-- place navbar here -->
-        </header>
-        <main>
-            <div class="container">
-
+        <div class="container text-center my-5">
+            <div class="row">
+                <div id="top" class="my-5">
+                    <h1>Strong Password Generator</h1>
+                    <h2>Genera una password sicura</h2>
+                </div>
+                <div id="mid" class="my-2">
+                    <span>messaggio...</span>
+                </div>
+                <div id="bot" class="my-2">
+                    <div class="d-flex justify-content-around">
+                        <span>Lunghezza password:</span>
+                        <input type="number" id="tentacles" name="tentacles" min="8" max="32" />
+                    </div>
+                    <div>
+                        Consenti...
+                    </div>
+                    <div>
+                        <button class="btn btn-primary">Invia</button>
+                        <button class="btn btn-secondary">Annulla</button>
+                    </div>
+                </div>
             </div>
-
-
-        </main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
-
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
+        </div>
     </body>
 </html>
