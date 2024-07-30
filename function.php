@@ -1,21 +1,18 @@
 <?php 
 
-function generatePassword($chairList, $length) {
+function generatePassword($charList, $tentacles) {
     $psw = '';
 
-    while (strlen($psw) < $length) {
-        $char = getChar($chairList);
-        $psw = $char;
+    while (strlen($psw) < $tentacles) {
+        $char = getChar($charList);
+        $psw .= $char;
     }
-
 
     return $psw;
 }
 
-function getChar($chairList){
-
-    return $chairList[rand(0, strlen($chairList)-1)];
+function getChar($charList){
+    return $charList[rand(0, strlen($charList)-1)];
 }
-
 
 ?>

@@ -1,26 +1,32 @@
 <?php 
 
+$listChars = [
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+    '0123456789',
+    '!£$%&?<>()[]{}@#'
+];
+
+$allChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!£$%&?<>()[]{}@#';
+
 require_once __DIR__ . '/function.php';
 
 $min = 8;
 $max = 32;
-
+$output = "Genera una password di lunghezza compresa fra $min e $max caratteri";
 
 // var_dump($_SERVER);
 
-if (isset($_GET["length"]) && !empty($_GET["length"])) {
-    if ($_GET["length"] < $min || $_GET["length"] > $max) {
-        $output = "Generare una password di lunghezza compresa fra $min e $max caratteri";
-        # code...
-    }else{
-
+if (isset($_GET["tentacles"]) && !empty($_GET["tentacles"])) {
+    $tentacles = (int)$_GET["tentacles"];  // Assicurati che sia un intero
+    if ($tentacles < $min || $tentacles > $max) {
+        $output = "Errore, la password deve avere una lunghezza compresa fra $min e $max caratteri";
+    } else {
         session_start();
+        $psw = generatePassword($allChars, $tentacles);  // Usa $allChars
         $_SESSION["password"] = $psw;
-        $psw = generatePassword($chairList, $_GET['length']);
+        $output = 'La password generata è: ' . htmlspecialchars($psw);
     }
-    $output = 'La password generata è: ' . htmlspecialchars($psw);
 }
-
 
 ?>
 
@@ -53,21 +59,25 @@ if (isset($_GET["length"]) && !empty($_GET["length"])) {
                     <h1>Strong Password Generator</h1>
                     <h2>Genera una password sicura</h2>
                 </div>
+
                 <div id="mid" class="my-2">
-                    <span>messaggio...</span>
+                    <span><?php echo $output ?></span>
                 </div>
+
                 <div id="bot" class="my-2">
-                    <div class="d-flex justify-content-around">
-                        <span>Lunghezza password:</span>
-                        <input type="number" id="tentacles" name="tentacles" min="8" max="32" />
-                    </div>
-                    <div>
-                        Consenti...
-                    </div>
-                    <div>
-                        <button class="btn btn-primary">Invia</button>
-                        <button class="btn btn-secondary">Annulla</button>
-                    </div>
+                    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="get">
+                        <div class="d-flex justify-content-around">
+                            <span>Lunghezza password:</span>
+                            <input type="number" id="tentacles" name="tentacles" />
+                        </div>
+                        <div>
+                            Consenti...
+                        </div>
+                        <div>
+                            <button class="btn btn-primary">Invia</button>
+                            <button class="btn btn-secondary">Annulla</button>
+                        </div>
+                    </form> 
                 </div>
             </div>
         </div>
